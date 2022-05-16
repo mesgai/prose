@@ -52,7 +52,7 @@ type EntityContext struct {
 
 // ModelFromData creates a new Model from user-provided training data.
 func ModelFromData(name string, sources ...DataSource) *Model {
-	model := defaultModel(true, true)
+	model := DefaultModel(true, true)
 	model.Name = name
 	for _, source := range sources {
 		source(model)
@@ -75,22 +75,24 @@ func ModelFromDisk(path string) *Model {
 func ModelFromFS(name string, filesys fs.FS) *Model {
 	// Locate a folder matching name within filesys
 	var modelFS fs.FS
-	err := fs.WalkDir(filesys, ".", func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
-
-		// Model located. Exit tree traversal
-		if d.Name() == name {
-			modelFS, err = fs.Sub(filesys, path)
+	err := fs.WalkDir(
+		filesys, ".", func(path string, d fs.DirEntry, err error) error {
 			if err != nil {
 				return err
 			}
-			return io.EOF
-		}
 
-		return nil
-	})
+			// Model located. Exit tree traversal
+			if d.Name() == name {
+				modelFS, err = fs.Sub(filesys, path)
+				if err != nil {
+					return err
+				}
+				return io.EOF
+			}
+
+			return nil
+		},
+	)
 	if err != io.EOF {
 		checkError(err)
 	}
@@ -155,7 +157,7 @@ func loadClassifier(filesys fs.FS) *entityExtracter {
 	return newTrainedEntityExtracter(model)
 }
 
-func defaultModel(tagging, classifying bool) *Model {
+func DefaultModel(tagging, classifying bool) *Model {
 	var tagger *perceptronTagger
 	var classifier *entityExtracter
 

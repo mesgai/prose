@@ -9,9 +9,9 @@ type DocOpt func(doc *Document, opts *DocOpts)
 
 // DocOpts controls the Document creation process:
 type DocOpts struct {
-	Extract  bool // If true, include named-entity extraction
-	Segment  bool // If true, include segmentation
-	Tag      bool // If true, include POS tagging
+	Extract   bool      // If true, include named-entity extraction
+	Segment   bool      // If true, include segmentation
+	Tag       bool      // If true, include POS tagging
 	Tokenizer Tokenizer // If true, include tokenization
 }
 
@@ -93,9 +93,9 @@ func (doc *Document) Entities() []Entity {
 
 var defaultOpts = DocOpts{
 	Tokenizer: NewIterTokenizer(),
-	Segment:  true,
-	Tag:      true,
-	Extract:  true,
+	Segment:   true,
+	Tag:       true,
+	Extract:   true,
 }
 
 // NewDocument creates a Document according to the user-specified options.
@@ -113,7 +113,7 @@ func NewDocument(text string, opts ...DocOpt) (*Document, error) {
 	}
 
 	if doc.Model == nil {
-		doc.Model = defaultModel(base.Tag, base.Extract)
+		doc.Model = DefaultModel(base.Tag, base.Extract)
 	}
 
 	if base.Segment {
