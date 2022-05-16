@@ -1,4 +1,4 @@
-module github.com/mesgia/prose/v3
+module github.com/mesgai/prose/v3
 
 go 1.18
 
