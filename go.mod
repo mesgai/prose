@@ -1,9 +1,10 @@
-module github.com/jdkato/prose/v2
+module github.com/mesgia/prose/v3
 
-go 1.16
+go 1.18
 
 require (
-	github.com/neurosnap/sentences v1.0.6 // indirect
-	gonum.org/v1/gonum v0.7.0
-	gopkg.in/neurosnap/sentences.v1 v1.0.6
+	gonum.org/v1/gonum v0.11.0
+	gopkg.in/neurosnap/sentences.v1 v1.0.7
 )
+
+require github.com/neurosnap/sentences v1.0.6 // indirect
